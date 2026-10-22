@@ -6,9 +6,7 @@
   <meta name="description" content="Sokak hayvanları için gönüllülük projesi - barınakların yapımı ve konumları.">
   <title>Patili Sığınaklar | Sokak Hayvanları Gönüllülük Projesi</title>
   <link rel="preconnect" href="https://unpkg.com">
- 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -19,7 +17,9 @@
         <a href="#amac">Amacımız</a>
         <a href="#proje">Proje</a>
         <a href="#harita">Harita</a>
+        <a href="#konum-oner">Konum Öner</a>
         <a href="#video">Yapım Aşaması</a>
+        <a href="#hazirlayanlar">Hazırlayanlar</a>
       </nav>
       <a class="nav-button" href="#harita">Barınakları Gör</a>
     </div>
@@ -32,7 +32,7 @@
           <div class="eyebrow">Gönüllülük Dersi • Sosyal Sorumluluk Projesi</div>
           <h1>Sokak hayvanları için <span>güvenli bir yuva.</span></h1>
           <p>
-            Kullanılmayan ve zor şartlarda yaşayan sokak hayvanları için gönüllü olarak
+            Zorlu şartlarda yaşayan sokak hayvanları için gönüllü olarak
             barınaklar hazırlıyor, uygun noktalara yerleştiriyor ve konumlarını harita
             üzerinden hayvanseverlerle paylaşıyoruz.
           </p>
@@ -41,7 +41,7 @@
             <a class="button secondary" href="#proje">Projeyi İncele</a>
           </div>
           <div class="mini-stats">
-            <div><strong id="shelterCount">3</strong><span>Örnek barınak</span></div>
+            <div><strong id="shelterCount">0</strong><span>Paylaşılan barınak</span></div>
             <div><strong>1</strong><span>Gönüllülük projesi</span></div>
             <div><strong>∞</strong><span>İyilik için alan</span></div>
           </div>
@@ -81,6 +81,10 @@
           <article class="info-card"><div class="icon">🍲</div><h3>İhtiyaçlara destek</h3><p>Barınakların çevresindeki canların mama ve su gibi temel ihtiyaçlarının karşılanmasına katkı sağlamak.</p></article>
           <article class="info-card"><div class="icon">🤝</div><h3>Gönüllülük</h3><p>İnsanları sokak hayvanlarına karşı duyarlı olmaya ve küçük ama etkili katkılar yapmaya teşvik etmek.</p></article>
         </div>
+        <div class="photo-grid">
+          <figure class="photo-card"><img loading="lazy" src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&amp;fit=crop&amp;w=1000&amp;q=85" alt="Sokak kedilerinin beslenme ihtiyacını temsil eden kedi fotoğrafı"><figcaption><strong>🍲 Beslenme</strong><span>Mama ve su desteğiyle sokaktaki dostlarımızın yanında olalım.</span></figcaption></figure>
+          <figure class="photo-card"><img loading="lazy" src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&amp;fit=crop&amp;w=1000&amp;q=85" alt="Barınma ihtiyacını temsil eden kedi fotoğrafı"><figcaption><strong>🏠 Barınma</strong><span>Soğuk ve yağışlı günlerde güvenli bir sığınak önemli.</span></figcaption></figure>
+        </div>
       </div>
     </section>
 
@@ -106,21 +110,27 @@
           <div class="section-heading left">
             <div class="eyebrow">Konum takip</div>
             <h2>Barınak Haritası</h2>
-            <p>Haritadaki işaretlere tıklayarak barınaklar hakkında bilgi edinebilirsiniz.</p>
+            <p>Barınaklar tamamlanıp konumları doğrulandığında haritada görünecek. İşarete tıklayıp “Yol Tarifi Al” düğmesini kullanabileceksiniz.</p>
           </div>
-          <div class="map-note">📍 Harita üzerindeki örnek konumları kendi barınak konumlarınla değiştirebilirsin.</div>
+          <div class="map-note">📍 Gerçek barınak konumları henüz eklenmedi.</div>
         </div>
         <div class="map-layout">
           <div id="map"></div>
           <aside class="shelter-list">
-            <div class="list-title"><strong>Barınaklar</strong><span id="listCount">3 konum</span></div>
+            <div class="list-title"><strong>Barınaklar</strong><span id="listCount">0 konum</span></div>
             <div id="shelterList"></div>
           </aside>
         </div>
-        <div class="map-tip">
-          <strong>💡 Yeni konum eklemek:</strong> Aşağıdaki JavaScript dosyasındaki <code>shelters</code> bölümüne
-          barınağın adını, açıklamasını ve enlem-boylam bilgilerini ekleyebilirsin.
-        </div>
+        <div class="map-tip">🧭 Gerçek bir barınak konumu eklendiğinde işaretine tıklayarak <strong>Google Haritalar’da Yol Tarifi Al</strong> bağlantısını açabileceksiniz.</div>
+      </div>
+    </section>
+
+    <section id="konum-oner" class="section section-soft">
+      <div class="container suggest-card">
+        <div class="eyebrow">Birlikte büyüyelim</div>
+        <h2>Barınak Konumu Öner</h2>
+        <p>Yeni bir barınak biliyor musunuz? Konum bağlantısını, kısa açıklamasını ve mümkünse bir fotoğrafını bize e-postayla iletin. Konumlar kontrol edildikten sonra haritaya eklenir.</p>
+        <a class="button primary" href="mailto:atmacausa08@gmail.com?subject=Bar%C4%B1nak%20Konumu%20%C3%96nerisi&amp;body=Bar%C4%B1nak%20konumu%20(Google%20Haritalar%20ba%C4%9Flant%C4%B1s%C4%B1)%3A%0AAdres%2Ftarif%3A%0AA%C3%A7%C4%B1klama%3A%0A">✉️ Konum Önerisi Gönder</a>
       </div>
     </section>
 
@@ -128,19 +138,44 @@
       <div class="container">
         <div class="section-heading">
           <div class="eyebrow">Yapım süreci</div>
-          <h2>Barınağı nasıl yaptım?</h2>
+          <h2>Barınakları nasıl yapıyoruz?</h2>
           <p>Barınakların hazırlanma aşamalarını bu bölümde paylaşıyoruz.</p>
         </div>
-        <div class="video-card">
-          <video controls poster="" preload="metadata">
-            <source src="assets/barinak-yapimi.mp4" type="video/mp4">
-            Tarayıcınız video oynatmayı desteklemiyor.
-          </video>
-          <div class="video-info">
-            <span class="video-badge">🎬 PROJE VİDEOSU</span>
-            <h3>Barınak yapım aşaması</h3>
-            <p>Bu alana kendi çektiğin barınak yapım videosunu <strong>assets/barinak-yapimi.mp4</strong> adıyla ekleyebilirsin.</p>
+        <div class="video-card coming-soon">
+          <div class="video-placeholder" aria-label="Yapım videosu yakında eklenecek">
+            <span class="video-placeholder-icon">🎬</span>
+            <strong>Yapım videosu yakında!</strong>
+            <p>Barınaklarımızın yapım aşamalarını burada paylaşacağız.</p>
           </div>
+          <div class="video-info">
+            <span class="video-badge">PROJE VİDEOSU</span>
+            <h3>Yapım sürecini birlikte izleyeceğiz</h3>
+            <p>Video çekimi tamamlandığında bu bölüme eklenecek.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="hazirlayanlar" class="section">
+      <div class="container">
+        <div class="section-heading">
+          <div class="eyebrow">Projeyi hazırlayanlar</div>
+          <h2>Hazırlayanlar</h2>
+          <p>Bu çalışma, gönüllülük dersi kapsamında sokak hayvanlarının yaşam koşullarına katkı sağlamak amacıyla hazırlanmıştır.</p>
+        </div>
+        <div class="authors-grid">
+          <article class="author-card">
+            <div class="author-avatar" aria-hidden="true">MA</div>
+            <h3>Musa Atmaca</h3>
+            <p>Proje hazırlayıcısı</p>
+            <a class="author-email" href="mailto:atmacausa08@gmail.com">atmacausa08@gmail.com</a>
+          </article>
+          <article class="author-card">
+            <div class="author-avatar" aria-hidden="true">MB</div>
+            <h3>Mert Bilgin</h3>
+            <p>Proje hazırlayıcısı</p>
+            <a class="author-email" href="mailto:mertbilgin61@icloud.com">mertbilgin61@icloud.com</a>
+          </article>
         </div>
       </div>
     </section>

@@ -1,61 +1,36 @@
-const shelters = [
-  {
-    name: "Barınak 1",
-    lat: 40.4600,
-    lng: 39.4800,
-    description: "Sokak hayvanlarının dinlenebileceği korunaklı alan."
-  },
-  {
-    name: "Barınak 2",
-    lat: 40.4665,
-    lng: 39.4750,
-    description: "Mama ve su desteği için uygun bir barınak noktası."
-  },
-  {
-    name: "Barınak 3",
-    lat: 40.4550,
-    lng: 39.4900,
-    description: "Gönüllüler tarafından yerleştirilen güvenli yuva."
-  }
-];
-
-// Kendi barınaklarını eklemek için yukarıdaki listeye yeni bir kayıt ekleyebilirsin.
-// lat = enlem, lng = boylam. Örnek:
-// { name: "Barınak 4", lat: 40.0000, lng: 39.0000, description: "Açıklama" }
-
-const map = L.map("map").setView([40.4600, 39.4800], 14);
-
+// Gerçek ve doğrulanmış barınaklar hazır olduğunda bu listeye eklenir.
+// Örnek: {name:"Barınak Adı",lat:41.0,lng:29.0,description:"Kısa açıklama"}
+const shelters = [];
+const map = L.map("map").setView([39.0, 35.0], 6);
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom: 19,
   attribution: '&copy; OpenStreetMap katkıcıları'
 }).addTo(map);
-
 const orangeIcon = L.divIcon({
-  className: "custom-marker",
-  html: '<div style="background:#f47b20;color:white;width:34px;height:34px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:grid;place-items:center;box-shadow:0 4px 12px rgba(0,0,0,.2);"><span style="transform:rotate(45deg);font-size:17px;">🐾</span></div>',
-  iconSize: [34, 34],
-  iconAnchor: [17, 34],
-  popupAnchor: [0, -32]
+  className:"custom-marker",
+  html:'<div style="background:#f47b20;color:white;width:34px;height:34px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:grid;place-items:center;box-shadow:0 4px 12px rgba(0,0,0,.2);"><span style="transform:rotate(45deg);font-size:17px;">🐾</span></div>',
+  iconSize:[34,34],iconAnchor:[17,34],popupAnchor:[0,-32]
 });
-
 const list = document.getElementById("shelterList");
-
-shelters.forEach((shelter, index) => {
-  const marker = L.marker([shelter.lat, shelter.lng], {icon: orangeIcon}).addTo(map);
-  marker.bindPopup(`
-    <div class="popup-title">🐾 ${shelter.name}</div>
-    <div class="popup-desc">${shelter.description}</div>
-  `);
-
-  const item = document.createElement("div");
-  item.className = "shelter-item";
-  item.innerHTML = `<strong>📍 ${shelter.name}</strong><p>${shelter.description}</p>`;
-  item.addEventListener("click", () => {
-    map.setView([shelter.lat, shelter.lng], 17);
-    marker.openPopup();
-  });
-  list.appendChild(item);
+if (!shelters.length) list.innerHTML = '<p class="empty-shelters">Henüz yayınlanmış barınak konumu yok. Konumlar doğrulandıktan sonra burada görünecek.</p>';
+const bounds=[];
+shelters.forEach(shelter=>{
+  const lat=Number(shelter.lat),lng=Number(shelter.lng);
+  if(!Number.isFinite(lat)||!Number.isFinite(lng))return;
+  bounds.push([lat,lng]);
+  const marker=L.marker([lat,lng],{icon:orangeIcon}).addTo(map);
+  const popup=document.createElement('div');
+  const title=document.createElement('div');title.className='popup-title';title.textContent='🐾 '+shelter.name;
+  const desc=document.createElement('div');desc.className='popup-desc';desc.textContent=shelter.description;
+  const link=document.createElement('a');link.className='popup-directions';link.textContent='🧭 Google Haritalar’da Yol Tarifi Al';
+  link.href='https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(lat+','+lng);
+  link.target='_blank';link.rel='noopener noreferrer';
+  popup.append(title,desc,link);marker.bindPopup(popup);
+  const item=document.createElement('div');item.className='shelter-item';
+  const name=document.createElement('strong');name.textContent='📍 '+shelter.name;
+  const details=document.createElement('p');details.textContent=shelter.description;
+  item.append(name,details);item.addEventListener('click',()=>{map.setView([lat,lng],17);marker.openPopup();});list.appendChild(item);
 });
-
-document.getElementById("shelterCount").textContent = shelters.length;
-document.getElementById("listCount").textContent = `${shelters.length} konum`;
+if(bounds.length)map.fitBounds(bounds,{padding:[40,40],maxZoom:14});
+document.getElementById('shelterCount').textContent=bounds.length;
+document.getElementById('listCount').textContent=bounds.length+' konum';
